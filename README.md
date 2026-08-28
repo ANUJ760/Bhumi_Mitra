@@ -9,7 +9,7 @@
 
 **Bhumi Mitra** is a national-scale digital platform for end-to-end orchestration, GIS visualization, and role-based tracking of India's infrastructure land acquisition lifecycle (Highways, Railways, Irrigation, Industrial Corridors, Renewable Energy, and Urban Infrastructure).
 
-Built strictly to the **SIH26016 MVP Specification & Build Guide**, coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
+Designed for **Smart India Hackathon (SIH26016)**, coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
 
 ---
 
@@ -49,8 +49,7 @@ Bhumi_Mitra/
 │   │   │   └── StatusBadge.tsx     # Status indicator badges
 │   │   └── lib/                    # API client, Auth context, TypeScript schemas
 ├── docker-compose.yml              # Multi-container orchestration
-├── .env.example                    # Environment configuration template
-└── Bhumi_Mitra_MVP_Build_Guide.md  # Official MVP Specification
+└── .env.example                    # Environment configuration template
 ```
 
 ---
@@ -76,9 +75,9 @@ Bhumi_Mitra/
 
 ---
 
-## ⚡ Core Business Rules (Implemented Exactly)
+## ⚡ Core Business Rules
 
-### 1. Parcel Completion Condition (Section 8.1)
+### 1. Parcel Completion Condition
 A parcel's `overall_status` becomes **`COMPLETED`** if and only if **all** of the following are satisfied:
 1. `NOTIFICATION` stage status is `COMPLETED`
 2. `AWARD` stage status is `COMPLETED`
@@ -88,7 +87,7 @@ A parcel's `overall_status` becomes **`COMPLETED`** if and only if **all** of th
 
 Otherwise, `overall_status` is `IN_PROGRESS` if any stage has moved past `PENDING`, else `PENDING`.
 
-### 2. Stage-Specific Enforcement (Section 8.2)
+### 2. Stage-Specific Enforcement
 - **Strict Ordering:** Stages must be completed in order (`Notification` → `Award` → `Compensation` → `R&R` → `Possession`). Out-of-order attempts return HTTP `409 Conflict` with clear prerequisite error messages.
 - **R&R Auto-Resolution:** When a parcel has zero affected families, R&R automatically resolves to `NOT_APPLICABLE`.
 - **Compensation Disbursal Gate:** Compensation with status `ASSESSED` or `APPROVED` keeps the stage at `IN_PROGRESS`. Only `DISBURSED` completes the stage.
@@ -161,7 +160,7 @@ Otherwise, `overall_status` is `IN_PROGRESS` if any stage has moved past `PENDIN
 Follow this 8-step verification sequence to test the entire acquisition lifecycle:
 
 1. **Sign in as Central Admin:**
-   - Navigate to `/login`, enter `admin@bhumimitra.gov.in` and the seeded password.
+   - Navigate to `/login`, enter `admin@bhumimitra.gov.in` and password `Admin@123456`.
 2. **Create Stakeholder Users:**
    - Go to `/admin/users`, create a `PROJECT_AGENCY` user and a `STATE_ADMIN` user (State: *Maharashtra*).
 3. **Submit Project Proposal:**
@@ -189,7 +188,7 @@ Follow this 8-step verification sequence to test the entire acquisition lifecycl
 ## 📜 Problem Statement Compliance
 
 - **Smart India Hackathon PS ID:** `SIH26016`
-- **Scope Contract:** Strictly adheres to Section 0 & 2 of the Build Guide. Out-of-scope features (AI predictions, OCR, blockchain audit, 3D Cesium) are decoupled with clean extension flags in `core/config.py`.
+- **Scope Contract:** Clean architecture with extension feature flags in `core/config.py`.
 
 ---
 
