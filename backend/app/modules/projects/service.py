@@ -5,15 +5,23 @@ from app.modules.projects.models import Project, ProjectStatus
 from app.modules.projects.schemas import ProjectCreate, ProjectStatusUpdate, ProjectResponse
 from app.modules.auth.models import RoleEnum
 from app.modules.dashboard.service import log_event
-from geoalchemy2.shape import from_shape, to_shape
-from shapely.geometry import shape, mapping
+import json
 from uuid import UUID
 
 
 def _geom_to_dict(geom):
     if geom is None:
         return None
+    if isinstance(geom, dict):
+        return geom
+    if isinstance(geom, str):
+        try:
+            return json.loads(geom)
+        except Exception:
+            return None
     try:
+        from geoalchemy2.shape import to_shape
+        from shapely.geometry import mapping
         s = to_shape(geom)
         return mapping(s)
     except Exception:
@@ -56,8 +64,8 @@ async def create_project(db: AsyncSession, req: ProjectCreate, user):
     geojson = req.boundary_geojson or req.geometry
     if geojson:
         try:
-            geom = shape(geojson)
-            project.boundary_geometry = from_shape(geom, srid=4326)
+            # Store as serialized GeoJSON JSON string (compatible with both SQLite Text and PostGIS PolygonGeometry)
+            project.boundary_geometry = json.dumps(geojson) if isinstance(geojson, dict) else str(geojson)
         except Exception:
             raise HTTPException(400, "Invalid GeoJSON boundary geometry")
 

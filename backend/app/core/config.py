@@ -1,14 +1,15 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import os
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/bhumimitra"
-    JWT_SECRET_KEY: str = "supersecret"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./bhumi_mitra.db")
+    JWT_SECRET_KEY: str = "bhumi_mitra_jwt_secret_key_sih26016_mvp_2026"
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRY_MINUTES: int = 480
     MINIO_ENDPOINT: str = "localhost:9000"
     MINIO_ACCESS_KEY: str = "minioadmin"
     MINIO_SECRET_KEY: str = "minioadmin"
-    MINIO_BUCKET_NAME: str = "bhumimitra"
+    MINIO_BUCKET_NAME: str = "bhumi-mitra-documents"
     FRONTEND_ORIGIN: str = "http://localhost:3000"
 
     ENABLE_BLOCKCHAIN_AUDIT: bool = False
@@ -17,6 +18,10 @@ class Settings(BaseSettings):
     ENABLE_NL_QUERY: bool = False
     ENABLE_ACQUISITION_TREE_UI: bool = False
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=(".env", "../.env", "backend/.env"),
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
 settings = Settings()

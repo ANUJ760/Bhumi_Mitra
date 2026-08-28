@@ -44,3 +44,8 @@ pgdata/
 
 # Alembic
 *.pyc
+
+.venv12/
+*.db
+uploaded_documents/
+

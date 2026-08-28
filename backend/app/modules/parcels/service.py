@@ -8,14 +8,22 @@ from app.modules.workflow.models import AcquisitionStage, StageName, StageStatus
 from app.modules.dashboard.service import log_event
 from app.modules.auth.models import RoleEnum
 from uuid import UUID
-from geoalchemy2.shape import from_shape, to_shape
-from shapely.geometry import shape, mapping
+import json
 
 
 def _geom_to_dict(geom):
     if geom is None:
         return None
+    if isinstance(geom, dict):
+        return geom
+    if isinstance(geom, str):
+        try:
+            return json.loads(geom)
+        except Exception:
+            return None
     try:
+        from geoalchemy2.shape import to_shape
+        from shapely.geometry import mapping
         s = to_shape(geom)
         return mapping(s)
     except Exception:
@@ -44,19 +52,7 @@ async def create_parcel(db: AsyncSession, project_id: UUID, req: ParcelCreate, u
 
     if req.geometry:
         try:
-            geom = shape(req.geometry)
-            parcel.geometry = from_shape(geom, srid=4326)
-
-            # Check if parcel geometry is within project boundary (log warning if not)
-            if project.boundary_geometry:
-                proj_geom = to_shape(project.boundary_geometry)
-                if not proj_geom.contains(geom):
-                    await log_event(
-                        db, "PARCEL", None,
-                        "parcel_outside_boundary_warning",
-                        user.id,
-                        new_value={"ulpin": req.ulpin, "project_id": str(project_id)}
-                    )
+            parcel.geometry = json.dumps(req.geometry) if isinstance(req.geometry, dict) else str(req.geometry)
         except Exception:
             raise HTTPException(400, "Invalid GeoJSON geometry")
 
@@ -116,7 +112,6 @@ async def get_parcel(db: AsyncSession, parcel_id: UUID):
     )
     stages = stages_res.scalars().all()
 
-    # Order stages: NOTIFICATION, AWARD, COMPENSATION, RNR, POSSESSION
     order = {s: i for i, s in enumerate(StageName)}
     stages_sorted = sorted(stages, key=lambda x: order.get(x.stage_name, 99))
 
@@ -145,19 +140,6 @@ async def get_parcel(db: AsyncSession, parcel_id: UUID):
 
 
 async def get_parcel_completion_status(db: AsyncSession, parcel_id: UUID) -> dict:
-    """
-    Compute parcel overall_status per Section 8.1:
-
-    COMPLETED IFF:
-      - NOTIFICATION.status == COMPLETED
-      AND AWARD.status == COMPLETED
-      AND COMPENSATION.status == COMPLETED
-        AND compensation.payment_status == DISBURSED
-      AND (RNR.status == COMPLETED OR RNR.status == NOT_APPLICABLE)
-      AND POSSESSION.status == COMPLETED
-
-    Otherwise IN_PROGRESS if any stage has moved past PENDING, else PENDING.
-    """
     result = await db.execute(
         select(AcquisitionStage).where(AcquisitionStage.parcel_id == parcel_id)
     )
@@ -167,14 +149,12 @@ async def get_parcel_completion_status(db: AsyncSession, parcel_id: UUID) -> dic
     if not stage_map:
         return {"overall_status": ParcelStatus.PENDING, "stage_statuses": {}}
 
-    # Check full completion rule
     notification_done = stage_map.get(StageName.NOTIFICATION) == StageStatus.COMPLETED
     award_done = stage_map.get(StageName.AWARD) == StageStatus.COMPLETED
     compensation_done = stage_map.get(StageName.COMPENSATION) == StageStatus.COMPLETED
     rnr_resolved = stage_map.get(StageName.RNR) in [StageStatus.COMPLETED, StageStatus.NOT_APPLICABLE]
     possession_done = stage_map.get(StageName.POSSESSION) == StageStatus.COMPLETED
 
-    # Additionally verify compensation payment_status is DISBURSED
     comp_disbursed = False
     if compensation_done:
         comp_result = await db.execute(

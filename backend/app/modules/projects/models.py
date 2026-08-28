@@ -3,8 +3,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Float, DateTime, ForeignKey, Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID
-from geoalchemy2 import Geometry
-from app.core.database import Base
+from app.core.database import Base, PolygonGeometry
 
 class ProjectStatus(str, enum.Enum):
     PROPOSED = "PROPOSED"
@@ -22,7 +21,7 @@ class Project(Base):
     implementing_agency_id = Column(UUID(as_uuid=True), ForeignKey("agencies.id"), nullable=True)
     state = Column(String, nullable=False)
     district = Column(String, nullable=False)
-    boundary_geometry = Column(Geometry('POLYGON', srid=4326), nullable=True)
+    boundary_geometry = Column(PolygonGeometry, nullable=True)
     budget = Column(Float, nullable=True)
     status = Column(SQLEnum(ProjectStatus), default=ProjectStatus.PROPOSED)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
