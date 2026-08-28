@@ -39,7 +39,7 @@ class UserCreate(BaseModel):
     name: str
     email: str
     password: str
-    role: RoleEnum
+    role: RoleEnum = RoleEnum.VIEWER
     agency_id: Optional[UUID] = None
     state_scope: Optional[str] = None
     district_scope: Optional[str] = None
@@ -66,6 +66,12 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class RegisterResponse(BaseModel):
+    user: UserResponse
+    access_token: str
+    token_type: str = "bearer"
 
 
 class UserListResponse(BaseModel):

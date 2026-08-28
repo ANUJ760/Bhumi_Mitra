@@ -12,7 +12,7 @@ async def authenticate_user(db: AsyncSession, req: LoginRequest):
     if not user or not verify_password(req.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     if not user.is_active:
-        raise HTTPException(status_code=403, detail="User is inactive")
+        raise HTTPException(status_code=403, detail="User account is inactive")
     token = create_access_token(data={"sub": str(user.id)})
     return token
 
@@ -20,7 +20,7 @@ async def authenticate_user(db: AsyncSession, req: LoginRequest):
 async def create_user(db: AsyncSession, req: UserCreate):
     result = await db.execute(select(User).where(User.email == req.email))
     if result.scalar_one_or_none():
-        raise HTTPException(status_code=409, detail="Email already registered")
+        raise HTTPException(status_code=409, detail="User with this email address already exists")
     new_user = User(
         name=req.name,
         email=req.email,
@@ -28,12 +28,23 @@ async def create_user(db: AsyncSession, req: UserCreate):
         role=req.role,
         agency_id=req.agency_id,
         state_scope=req.state_scope,
-        district_scope=req.district_scope
+        district_scope=req.district_scope,
+        is_active=True
     )
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)
     return new_user
+
+
+async def register_user(db: AsyncSession, req: UserCreate):
+    user = await create_user(db, req)
+    token = create_access_token(data={"sub": str(user.id)})
+    return {
+        "user": user,
+        "access_token": token,
+        "token_type": "bearer"
+    }
 
 
 async def list_users(db: AsyncSession):

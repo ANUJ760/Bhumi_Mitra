@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { User } from '@/lib/types';
 
 export default function LoginPage() {
@@ -55,7 +56,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center space-y-2">
           <div className="mx-auto w-16 h-16 bg-blue-900 rounded-full flex items-center justify-center mb-2">
@@ -95,10 +96,16 @@ export default function LoginPage() {
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col space-y-3 pt-2">
             <Button type="submit" className="w-full bg-blue-900 hover:bg-blue-800" disabled={loading}>
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
+            <div className="text-center text-sm text-gray-500">
+              New stakeholder?{' '}
+              <Link href="/register" className="text-blue-900 font-semibold hover:underline">
+                Register an account
+              </Link>
+            </div>
           </CardFooter>
         </form>
       </Card>

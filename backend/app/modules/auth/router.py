@@ -8,6 +8,7 @@ from app.modules.auth.schemas import (
     LoginResponse,
     UserCreate,
     UserResponse,
+    RegisterResponse,
     UserListResponse,
     AgencyResponse,
 )
@@ -21,6 +22,11 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def login(req: LoginRequest, db: AsyncSession = Depends(get_db)):
     token = await service.authenticate_user(db, req)
     return {"access_token": token}
+
+
+@router.post("/register", response_model=RegisterResponse, status_code=201)
+async def register(req: UserCreate, db: AsyncSession = Depends(get_db)):
+    return await service.register_user(db, req)
 
 
 @router.get("/me", response_model=UserResponse)
@@ -52,6 +58,5 @@ async def list_users(
 @users_router.get("/agencies", response_model=List[AgencyResponse])
 async def list_agencies(
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
 ):
     return await service.list_agencies(db)
