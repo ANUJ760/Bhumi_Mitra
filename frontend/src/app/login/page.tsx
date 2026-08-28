@@ -27,7 +27,6 @@ export default function LoginPage() {
     try {
       const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
-      // Send JSON login request
       const response = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -36,12 +35,11 @@ export default function LoginPage() {
 
       if (!response.ok) {
         const errData = await response.json().catch(() => null);
-        throw new Error(errData?.detail || 'Invalid credentials');
+        throw new Error(errData?.detail || 'Invalid email or password');
       }
 
       const data = await response.json();
 
-      // Store token and fetch user info
       localStorage.setItem('token', data.access_token);
 
       const userData = await apiGet<User>('/auth/me');
@@ -56,29 +54,39 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 px-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-16 h-16 bg-blue-900 rounded-full flex items-center justify-center mb-2">
-            <span className="text-white text-2xl font-bold">भू</span>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-xl shadow-2xl border-slate-200/80 rounded-2xl bg-white/95 backdrop-blur-sm p-2 sm:p-4">
+        <CardHeader className="text-center space-y-3 pb-6">
+          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl shadow-md flex items-center justify-center ring-4 ring-blue-100 mb-1">
+            <span className="text-white text-3xl font-bold font-serif">भू</span>
           </div>
-          <CardTitle className="text-2xl font-bold text-blue-900">Bhumi Mitra</CardTitle>
-          <CardDescription className="text-gray-500">
-            Land Acquisition Monitoring System
+          <div className="space-y-1">
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-blue-950">
+              Bhumi Mitra (भूमि मित्र)
+            </CardTitle>
+            <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">
+              Government of India • SIH26016
+            </p>
+          </div>
+          <CardDescription className="text-base text-slate-600 max-w-md mx-auto">
+            National Infrastructure Land Acquisition & Workflow Monitoring Platform
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-5 px-6 sm:px-8">
             {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm text-center border border-red-200">
-                {error}
+              <div className="bg-red-50 text-red-700 p-4 rounded-xl text-sm border border-red-200 font-medium flex items-center gap-2">
+                <span className="text-base">⚠️</span> {error}
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email" className="text-sm font-semibold text-slate-800">
+                Official Email Address
+              </Label>
               <Input
                 id="email"
                 type="email"
+                className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@bhumimitra.gov.in"
@@ -86,24 +94,34 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="password" className="text-sm font-semibold text-slate-800">
+                  Password
+                </Label>
+              </div>
               <Input
                 id="password"
                 type="password"
+                className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
                 required
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-3 pt-2">
-            <Button type="submit" className="w-full bg-blue-900 hover:bg-blue-800" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+          <CardFooter className="flex flex-col space-y-4 px-6 sm:px-8 pt-4 pb-6">
+            <Button
+              type="submit"
+              className="w-full h-12 text-base font-semibold bg-blue-900 hover:bg-blue-800 text-white rounded-xl shadow-md transition duration-150"
+              disabled={loading}
+            >
+              {loading ? 'Signing in securely...' : 'Sign In to Portal'}
             </Button>
-            <div className="text-center text-sm text-gray-500">
-              New stakeholder?{' '}
-              <Link href="/register" className="text-blue-900 font-semibold hover:underline">
-                Register an account
+            <div className="text-center text-sm text-slate-600 pt-1">
+              New stakeholder or official agency?{' '}
+              <Link href="/register" className="text-blue-900 font-bold hover:underline">
+                Register account here &rarr;
               </Link>
             </div>
           </CardFooter>

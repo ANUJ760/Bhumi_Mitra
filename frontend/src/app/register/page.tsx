@@ -21,19 +21,19 @@ interface RegisterApiResponse {
 const ROLE_INFO: Record<UserRole, { label: string; desc: string }> = {
   [UserRole.PROJECT_AGENCY]: {
     label: 'Project Agency (NHAI / MoRTH / PWD)',
-    desc: 'Submit new infrastructure project proposals & boundaries',
+    desc: 'Submit new infrastructure project proposals, budgets & GIS boundaries',
   },
   [UserRole.DISTRICT_AUTHORITY]: {
     label: 'District Authority (DM / CALA / Collector)',
-    desc: 'Add land parcels, record awards, compensation, & possession',
+    desc: 'Add land parcels, record awards, disbursals, & final possession',
   },
   [UserRole.STATE_ADMIN]: {
     label: 'State Administrator (State Revenue Dept)',
-    desc: 'Review and approve/reject project proposals within state',
+    desc: 'Review and approve/reject project proposals within state jurisdiction',
   },
   [UserRole.FIELD_OFFICER]: {
     label: 'Field Officer (Survey / Land Records)',
-    desc: 'Ground inspection, R&R verification, document upload',
+    desc: 'Ground inspection, R&R verification, and evidence document upload',
   },
   [UserRole.AUDITOR]: {
     label: 'Auditor (CAG / Ministry Oversight)',
@@ -41,11 +41,11 @@ const ROLE_INFO: Record<UserRole, { label: string; desc: string }> = {
   },
   [UserRole.VIEWER]: {
     label: 'Citizen / Observer (Viewer)',
-    desc: 'Read-only inspection of land acquisition progress',
+    desc: 'Read-only inspection of land acquisition progress and status',
   },
   [UserRole.CENTRAL_ADMIN]: {
     label: 'Central Administrator',
-    desc: 'National system administration and user management',
+    desc: 'National system administration and user account management',
   },
 };
 
@@ -109,30 +109,40 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 px-4">
-      <Card className="w-full max-w-xl shadow-lg">
-        <CardHeader className="text-center space-y-1">
-          <div className="mx-auto w-14 h-14 bg-blue-900 rounded-full flex items-center justify-center mb-1">
-            <span className="text-white text-xl font-bold">भू</span>
+    <div className="min-h-screen py-16 flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-3xl shadow-2xl border-slate-200/80 rounded-2xl bg-white/95 backdrop-blur-sm p-4 sm:p-6">
+        <CardHeader className="text-center space-y-3 pb-6">
+          <div className="mx-auto w-18 h-18 bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl shadow-md flex items-center justify-center ring-4 ring-blue-100 mb-1">
+            <span className="text-white text-2xl font-bold font-serif">भू</span>
           </div>
-          <CardTitle className="text-2xl font-bold text-blue-900">Stakeholder Registration</CardTitle>
-          <CardDescription className="text-gray-500">
-            Register your official account on Bhumi Mitra Land Acquisition Platform
+          <div className="space-y-1">
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-blue-950">
+              Stakeholder Registration
+            </CardTitle>
+            <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">
+              Bhumi Mitra • National Land Acquisition Platform
+            </p>
+          </div>
+          <CardDescription className="text-base text-slate-600 max-w-xl mx-auto">
+            Create an authorized stakeholder account with role-based jurisdiction access
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6 px-4 sm:px-8">
             {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm border border-red-200">
-                {error}
+              <div className="bg-red-50 text-red-700 p-4 rounded-xl text-sm border border-red-200 font-medium flex items-center gap-2">
+                <span className="text-base">⚠️</span> {error}
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2 col-span-1 md:col-span-2">
-                <Label htmlFor="name">Full Name *</Label>
+                <Label htmlFor="name" className="text-sm font-semibold text-slate-800">
+                  Full Name *
+                </Label>
                 <Input
                   id="name"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Sunil Deshmukh"
@@ -141,10 +151,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Official Email Address *</Label>
+                <Label htmlFor="email" className="text-sm font-semibold text-slate-800">
+                  Official Email Address *
+                </Label>
                 <Input
                   id="email"
                   type="email"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@gov.in"
@@ -153,10 +166,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
+                <Label htmlFor="password" className="text-sm font-semibold text-slate-800">
+                  Password *
+                </Label>
                 <Input
                   id="password"
                   type="password"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
@@ -166,16 +182,18 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2 pt-1">
-              <Label htmlFor="role">Stakeholder Role (RBAC) *</Label>
+              <Label htmlFor="role" className="text-sm font-semibold text-slate-800">
+                Stakeholder Role (RBAC Access Level) *
+              </Label>
               <Select value={role} onValueChange={(v: UserRole) => setRole(v)}>
-                <SelectTrigger id="role" className="h-auto py-2">
+                <SelectTrigger id="role" className="h-auto py-3 px-4 rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700">
                   <SelectValue placeholder="Select your stakeholder role" />
                 </SelectTrigger>
                 <SelectContent className="max-h-80">
                   {Object.entries(ROLE_INFO).map(([rKey, info]) => (
-                    <SelectItem key={rKey} value={rKey} className="py-2">
+                    <SelectItem key={rKey} value={rKey} className="py-2.5 px-3">
                       <div className="font-semibold text-gray-900">{info.label}</div>
-                      <div className="text-xs text-gray-500">{info.desc}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">{info.desc}</div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -183,13 +201,15 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="agency">Affiliated Implementing / Requiring Agency</Label>
+              <Label htmlFor="agency" className="text-sm font-semibold text-slate-800">
+                Affiliated Implementing / Requiring Agency (Optional)
+              </Label>
               <Select value={agencyId} onValueChange={setAgencyId}>
-                <SelectTrigger id="agency">
+                <SelectTrigger id="agency" className="h-12 px-4 rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700">
                   <SelectValue placeholder="Select agency (optional)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Independent / State Government</SelectItem>
+                  <SelectItem value="none">Independent / State Government Department</SelectItem>
                   {agencies.map((a) => (
                     <SelectItem key={a.id} value={a.id}>
                       {a.name}
@@ -199,11 +219,14 @@ export default function RegisterPage() {
               </Select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pt-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
               <div className="space-y-2">
-                <Label htmlFor="state_scope">State Scope</Label>
+                <Label htmlFor="state_scope" className="text-sm font-semibold text-slate-800">
+                  State Jurisdiction Scope
+                </Label>
                 <Input
                   id="state_scope"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                   value={stateScope}
                   onChange={(e) => setStateScope(e.target.value)}
                   placeholder="e.g. Maharashtra"
@@ -211,9 +234,12 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="district_scope">District Scope</Label>
+                <Label htmlFor="district_scope" className="text-sm font-semibold text-slate-800">
+                  District Jurisdiction Scope
+                </Label>
                 <Input
                   id="district_scope"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
                   value={districtScope}
                   onChange={(e) => setDistrictScope(e.target.value)}
                   placeholder="e.g. Pune"
@@ -221,14 +247,18 @@ export default function RegisterPage() {
               </div>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-3 pt-2">
-            <Button type="submit" className="w-full bg-blue-900 hover:bg-blue-800" disabled={loading}>
-              {loading ? 'Registering Account...' : 'Complete Registration'}
+          <CardFooter className="flex flex-col space-y-4 px-4 sm:px-8 pt-4 pb-6">
+            <Button
+              type="submit"
+              className="w-full h-12 text-base font-semibold bg-blue-900 hover:bg-blue-800 text-white rounded-xl shadow-md transition duration-150"
+              disabled={loading}
+            >
+              {loading ? 'Creating Authorized Account...' : 'Complete Stakeholder Registration'}
             </Button>
-            <div className="text-center text-sm text-gray-500">
-              Already have an account?{' '}
-              <Link href="/login" className="text-blue-900 font-semibold hover:underline">
-                Sign in here
+            <div className="text-center text-sm text-slate-600 pt-1">
+              Already have an authorized account?{' '}
+              <Link href="/login" className="text-blue-900 font-bold hover:underline">
+                Sign in here &rarr;
               </Link>
             </div>
           </CardFooter>
