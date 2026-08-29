@@ -5,6 +5,11 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.database import engine, Base, async_session_maker
 from app.modules.auth.models import User, RoleEnum, Agency
+from app.modules.projects.models import Project
+from app.modules.parcels.models import Parcel
+from app.modules.workflow.models import AcquisitionStage, Award, Compensation, AffectedFamily, RnrRecord, PossessionRecord
+from app.modules.documents.models import Document
+from app.modules.dashboard.models import AuditLog
 from app.core.security import get_password_hash
 from sqlalchemy import select
 import os
@@ -63,10 +68,20 @@ app = FastAPI(title="Bhumi Mitra MVP API", version="1.0.0", lifespan=lifespan)
 # Allow CORS for Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", settings.FRONTEND_ORIGIN, "http://localhost:3000"],
+    allow_origins=[
+        settings.FRONTEND_ORIGIN,
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Mount uploaded documents
