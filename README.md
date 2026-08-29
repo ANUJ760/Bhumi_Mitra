@@ -13,6 +13,20 @@ Designed for **Smart India Hackathon (SIH26016)**, coordinating Central Ministri
 
 ---
 
+## 📸 Platform Demo & Screenshots
+
+| **1. Executive Dashboard & Acquisition Analytics** | **2. Infrastructure Projects Tracker** |
+| :---: | :---: |
+| ![Executive Dashboard](screenshots/Screenshot_20260829_155521.png) | ![Projects Tracker](screenshots/Screenshot_20260829_155552.png) |
+| *Role-scoped real-time KPI overview & recent project portfolio* | *Project proposals, sanction status, state/district allocation & budget* |
+
+| **3. Stakeholder & RBAC User Management** | **4. Role-Based Stakeholder Registration** |
+| :---: | :---: |
+| ![User Management](screenshots/Screenshot_20260829_155605.png) | ![Stakeholder Registration](screenshots/Screenshot_20260829_155622.png) |
+| *Administrative control panel for role delegations & jurisdictions* | *Onboarding portal with agency affiliation & district/state scopes* |
+
+---
+
 ## 🏛️ System Architecture & Domain Modules
 
 The platform adopts a **domain-modular architecture** with a strict service-layer abstraction for all business logic:
