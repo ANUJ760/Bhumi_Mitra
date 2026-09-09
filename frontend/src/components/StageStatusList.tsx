@@ -50,7 +50,7 @@ export function StageStatusList({ stages, onRecordEvent, canRecord }: StageStatu
             </TableCell>
             <TableCell className="text-right">
               {stage.status !== StageStatus.COMPLETED && stage.status !== StageStatus.NOT_APPLICABLE && canRecord(stage.stage_name) && (
-                <Button size="sm" className="bg-blue-900 hover:bg-blue-800 text-white" onClick={() => onRecordEvent(stage.stage_name)}>
+                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => onRecordEvent(stage.stage_name)}>
                   Record Event
                 </Button>
               )}

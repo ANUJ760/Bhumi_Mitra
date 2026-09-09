@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Users, Plus } from 'lucide-react';
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -85,15 +86,16 @@ export default function UsersPage() {
 
   return (
     <ProtectedRoute allowedRoles={[UserRole.CENTRAL_ADMIN]}>
+      <div className="min-h-screen bg-gray-50/30">
       <div className="p-8 max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
+            <h1 className="text-3xl font-bold text-gray-900 flex items-center"><Users className="w-8 h-8 mr-3 text-emerald-600" /> User Management</h1>
             <p className="text-gray-500 mt-1">Manage stakeholder accounts and RBAC access roles</p>
           </div>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-900 hover:bg-blue-800">Create User</Button>
+              <Button className="bg-emerald-600 hover:bg-emerald-700"><Plus className="w-4 h-4 mr-1 inline" /> Create User</Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
@@ -151,7 +153,7 @@ export default function UsersPage() {
                   </div>
                 </div>
                 <div className="flex justify-end pt-4">
-                  <Button type="submit" className="bg-blue-900 hover:bg-blue-800" disabled={submitting}>
+                  <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={submitting}>
                     {submitting ? 'Creating...' : 'Create Account'}
                   </Button>
                 </div>
@@ -187,7 +189,7 @@ export default function UsersPage() {
                     <TableCell className="font-medium text-gray-900">{u.name}</TableCell>
                     <TableCell>{u.email}</TableCell>
                     <TableCell>
-                      <span className="font-mono text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded font-semibold">
+                      <span className="font-mono text-xs bg-emerald-100 text-emerald-800 border border-emerald-200 px-2 py-1 rounded-md font-semibold">
                         {u.role}
                       </span>
                     </TableCell>
@@ -210,6 +212,7 @@ export default function UsersPage() {
             </TableBody>
           </Table>
         </Card>
+      </div>
       </div>
     </ProtectedRoute>
   );
