@@ -4,28 +4,24 @@ import './globals.css';
 import { AuthProvider } from '@/lib/auth';
 import Navbar from '@/components/layout/Navbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-  title: 'Bhumi Mitra — Land Acquisition Platform',
-  description: 'National Infrastructure Land Acquisition Lifecycle Management System (SIH26016)',
+  title: 'Bhumi Mitra — National Land Acquisition Platform',
+  description: 'Real-time national land acquisition & management system for end-to-end digital monitoring and decision support. Smart India Hackathon 2026 (SIH26016).',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased">
         <AuthProvider>
-          <div className="min-h-screen flex flex-col bg-gray-50">
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-          </div>
+          <Navbar />
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>
