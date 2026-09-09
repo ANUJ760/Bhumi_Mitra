@@ -13,6 +13,7 @@ from app.modules.dashboard.models import AuditLog
 from app.core.security import get_password_hash
 from sqlalchemy import select
 import os
+import secrets
 
 from app.modules.auth.router import router as auth_router, users_router
 from app.modules.projects.router import router as projects_router
@@ -21,6 +22,7 @@ from app.modules.workflow.router import router as workflow_router
 from app.modules.documents.router import router as documents_router
 from app.modules.dashboard.router import router as dashboard_router
 from app.modules.mock_gov_api.router import router as mock_gov_router
+from app.modules.gov_api_gateway.router import router as gov_api_router
 
 
 @asynccontextmanager
@@ -34,15 +36,21 @@ async def lifespan(app: FastAPI):
         res = await db.execute(select(User).where(User.email == "admin@bhumimitra.gov.in"))
         admin = res.scalar_one_or_none()
         if not admin:
+            generated_pwd = secrets.token_urlsafe(16)
             admin = User(
                 name="Central Administrator",
                 email="admin@bhumimitra.gov.in",
-                password_hash=get_password_hash("Admin@123456"),
+                password_hash=get_password_hash(generated_pwd),
                 role=RoleEnum.CENTRAL_ADMIN,
                 is_active=True,
             )
             db.add(admin)
-            print("Seeded Central Admin -> admin@bhumimitra.gov.in / Admin@123456")
+            print(f"\n{'='*60}")
+            print(f"  ADMIN ACCOUNT CREATED")
+            print(f"  Email:    admin@bhumimitra.gov.in")
+            print(f"  Password: {generated_pwd}")
+            print(f"  ⚠️  Save this password — it will not be shown again.")
+            print(f"{'='*60}\n")
 
         # Seed Agencies
         sample_agencies = [
@@ -98,6 +106,7 @@ app.include_router(workflow_router, prefix="/api/v1")
 app.include_router(documents_router, prefix="/api/v1")
 app.include_router(dashboard_router, prefix="/api/v1")
 app.include_router(mock_gov_router, prefix="/api/v1")
+app.include_router(gov_api_router, prefix="/api/v1")
 
 
 @app.get("/health")

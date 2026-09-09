@@ -17,7 +17,7 @@ async def seed():
         admin = res.scalar_one_or_none()
         
         if not admin:
-            pwd = secrets.token_urlsafe(12)
+            pwd = secrets.token_urlsafe(16)
             admin = User(
                 name="Central Admin",
                 email="admin@bhumimitra.gov.in",
