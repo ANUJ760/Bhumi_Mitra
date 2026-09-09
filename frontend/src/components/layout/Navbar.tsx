@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import { UserRole } from '@/lib/types';
-import { LayoutDashboard, FolderKanban, Users, LogOut, Menu, X, Bell, FileText, MapPin, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, Users, LogOut, Menu, X, Bell, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ROLE_LABELS: Record<string, string> = {

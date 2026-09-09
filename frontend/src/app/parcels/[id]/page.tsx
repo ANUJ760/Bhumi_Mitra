@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Lock, FileText, Upload } from 'lucide-react';
+import { ArrowLeft, Lock, Upload } from 'lucide-react';
 
 interface LandRecordLookup {
   ulpin: string;

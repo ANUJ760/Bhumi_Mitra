@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth, ProtectedRoute } from '@/lib/auth';
 import { apiGet } from '@/lib/api';
-import { DashboardSummary, Project, UserRole } from '@/lib/types';
+import { DashboardSummary, Project } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import StatusBadge from '@/components/StatusBadge';
-import { FolderKanban, MapPin, CheckCircle2, Clock, TrendingUp, AlertTriangle, BarChart3, Bell } from 'lucide-react';
+import { FolderKanban, MapPin, CheckCircle2, Clock, TrendingUp, AlertTriangle, Bell } from 'lucide-react';
 
 const ROLE_LABELS: Record<string, string> = {
   CENTRAL_ADMIN: 'Central Administrator',

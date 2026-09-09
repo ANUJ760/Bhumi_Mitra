@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import ProjectMap from '@/components/map/ProjectMap';
 import BoundaryDrawer from '@/components/map/BoundaryDrawer';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Map, FileText, Plus, Database, Users } from 'lucide-react';
+import { ArrowLeft, Map, FileText, Plus } from 'lucide-react';
 
 export default function ProjectDetail({ params }: { params: { id: string } }) {
   const [project, setProject] = useState<Project | null>(null);

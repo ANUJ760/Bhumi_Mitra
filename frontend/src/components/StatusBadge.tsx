@@ -18,7 +18,7 @@ const STATUS_STYLES: Record<string, { bg: string; text: string; dot: string }> =
   DISBURSED: { bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-500' },
 };
 
-export default function StatusBadge({ status }: { status: string }) {
+export function StatusBadge({ status }: { status: string }) {
   const style = STATUS_STYLES[status] || { bg: 'bg-gray-50', text: 'text-gray-600', dot: 'bg-gray-400' };
   const label = status.replace(/_/g, ' ');
 
@@ -29,3 +29,5 @@ export default function StatusBadge({ status }: { status: string }) {
     </span>
   );
 }
+
+export default StatusBadge;
