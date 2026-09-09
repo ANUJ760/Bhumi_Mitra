@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, Lock, FileText, Upload } from 'lucide-react';
 
 interface LandRecordLookup {
   ulpin: string;
@@ -183,11 +184,12 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
 
   return (
     <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50/30">
       <div className="p-8 max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-start">
           <div>
             <Button variant="ghost" size="sm" className="px-0 text-gray-500 hover:text-gray-900 mb-1" onClick={() => router.push(`/projects/${parcel.project_id}`)}>
-              &larr; Back to Project
+              <ArrowLeft className="w-4 h-4 mr-1 inline" /> Back to Project
             </Button>
             <h1 className="text-3xl font-bold text-gray-900">Parcel: {parcel.ulpin}</h1>
             <p className="text-gray-500 mt-0.5">{parcel.area_hectares} Hectares</p>
@@ -196,11 +198,11 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
         </div>
 
         {landRecord && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900 flex items-center justify-between">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm text-emerald-700 flex items-center justify-between">
             <div>
               <span className="font-semibold">DILRMP Verified Record:</span> Owner: <span className="font-medium">{landRecord.owner_name}</span> | Land Use: <span className="font-medium">{landRecord.land_use}</span> | Source: <span className="font-medium">{landRecord.source_system}</span>
             </div>
-            <span className="bg-blue-200 text-blue-800 text-xs px-2.5 py-0.5 rounded font-medium">Mock Verified</span>
+            <span className="bg-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded font-medium">Mock Verified</span>
           </div>
         )}
 
@@ -251,13 +253,15 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
               <CardTitle className="text-lg">Attached Documents ({documents.length})</CardTitle>
               <p className="text-xs text-gray-500 mt-0.5">Legal notifications, valuation certificates, compensation orders, and possession deeds</p>
             </div>
-            <Button size="sm" className="bg-blue-900 hover:bg-blue-800" onClick={() => setDocUploadOpen(true)}>
-              Upload Document
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700" onClick={() => setDocUploadOpen(true)}>
+              <Upload className="w-4 h-4 mr-1 inline" /> Upload Document
             </Button>
           </div>
           <CardContent className="p-0">
             {documents.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">No documents attached yet.</div>
+              <div className="p-8 text-center text-gray-500">No documents attached yet.
+                <div className="mt-4 flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-200 rounded-lg bg-gray-50"><Lock className="w-8 h-8 text-gray-400 mb-2" /><p className="text-sm text-gray-500 font-medium">Secure document repository with version control coming soon</p></div>
+              </div>
             ) : (
               <ul className="divide-y divide-gray-200">
                 {documents.map(doc => (
@@ -270,7 +274,7 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
                       href={doc.file_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
+                      className="text-emerald-600 hover:text-emerald-800 text-sm font-medium hover:underline"
                     >
                       View File &rarr;
                     </a>
@@ -417,7 +421,7 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
               )}
 
               <div className="flex justify-end pt-4">
-                <Button type="submit" className="bg-blue-900 hover:bg-blue-800" disabled={submitting}>
+                <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={submitting}>
                   {submitting ? 'Recording...' : 'Record Event'}
                 </Button>
               </div>
@@ -441,13 +445,14 @@ export default function ParcelDetail({ params }: { params: { id: string } }) {
                 <Input type="file" required onChange={(e) => setDocFile(e.target.files?.[0] || null)} />
               </div>
               <div className="flex justify-end pt-4">
-                <Button type="submit" className="bg-blue-900 hover:bg-blue-800" disabled={submitting}>
+                <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={submitting}>
                   {submitting ? 'Uploading...' : 'Upload'}
                 </Button>
               </div>
             </form>
           </DialogContent>
         </Dialog>
+      </div>
       </div>
     </ProtectedRoute>
   );
