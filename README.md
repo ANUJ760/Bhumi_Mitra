@@ -7,9 +7,9 @@
 [![MapLibre GL](https://img.shields.io/badge/GIS-MapLibre%20GL%20JS-blue.svg?logo=maplibre)](https://maplibre.org)
 [![MinIO](https://img.shields.io/badge/Object%20Storage-MinIO%20S3-C72C48.svg?logo=minio)](https://min.io)
 
-**Bhumi Mitra** is a national-scale digital platform for end-to-end orchestration, GIS visualization, and role-based tracking of India's infrastructure land acquisition lifecycle — Highways, Railways, Irrigation, Industrial Corridors, Renewable Energy, and Urban Infrastructure.
+**Bhumi Mitra** is a national-scale digital platform for end-to-end orchestration, GIS visualization, and role-based tracking of India's infrastructure land acquisition lifecycle for Highways, Railways, Irrigation, Industrial Corridors, Renewable Energy, and Urban Infrastructure.
 
-Designed for **Smart India Hackathon 2026 (SIH26016)** — coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
+Designed for **Smart India Hackathon 2026 (SIH26016)**, coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
 
 ---
 
