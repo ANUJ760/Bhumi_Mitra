@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import ProjectMap from '@/components/map/ProjectMap';
 import BoundaryDrawer from '@/components/map/BoundaryDrawer';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, Map, FileText, Plus, Database, Users } from 'lucide-react';
 
 export default function ProjectDetail({ params }: { params: { id: string } }) {
   const [project, setProject] = useState<Project | null>(null);
@@ -90,12 +91,13 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
 
   return (
     <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50/30">
       <div className="p-8 max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-start">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Button variant="ghost" size="sm" className="text-gray-500 hover:text-gray-900" onClick={() => router.push('/projects')}>
-                &larr; Back to Projects
+                <ArrowLeft className="w-4 h-4 mr-1 inline" /> Back to Projects
               </Button>
             </div>
             <h1 className="text-3xl font-bold text-gray-900">{project.name}</h1>
@@ -119,7 +121,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="col-span-1 lg:col-span-2 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg">Project GIS Map View</CardTitle>
+              <CardTitle className="text-lg flex items-center"><Map className="w-5 h-5 mr-2" /> Project GIS Map View</CardTitle>
             </CardHeader>
             <CardContent>
               <ProjectMap
@@ -128,7 +130,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
                 onParcelClick={(id) => router.push(`/parcels/${id}`)}
               />
               <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-blue-500/20 border border-blue-700"></span> Project Boundary</span>
+                <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500/20 border border-emerald-700"></span> Project Boundary</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-yellow-500"></span> Pending</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-orange-500"></span> In Progress</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-500"></span> Completed</span>
@@ -138,7 +140,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
 
           <Card className="col-span-1 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg">Project Details</CardTitle>
+              <CardTitle className="text-lg flex items-center"><FileText className="w-5 h-5 mr-2" /> Project Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -170,7 +172,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
             {canAddParcel && (
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                  <Button size="sm" className="bg-blue-900 hover:bg-blue-800">Add Parcel</Button>
+                  <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700"><Plus className="w-4 h-4 mr-1 inline" /> Add Parcel</Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                   <DialogHeader>
@@ -197,7 +199,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
                       <BoundaryDrawer onChange={setGeometry} />
                     </div>
                     <div className="flex justify-end pt-4">
-                      <Button type="submit" className="bg-blue-900 hover:bg-blue-800" disabled={submitting}>
+                      <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={submitting}>
                         {submitting ? 'Adding...' : 'Add Parcel'}
                       </Button>
                     </div>
@@ -229,7 +231,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
                     className="cursor-pointer hover:bg-gray-50 transition"
                     onClick={() => router.push(`/parcels/${p.id}`)}
                   >
-                    <TableCell className="font-semibold text-blue-900">{p.ulpin}</TableCell>
+                    <TableCell className="font-semibold text-emerald-700">{p.ulpin}</TableCell>
                     <TableCell>{p.area_hectares} Ha</TableCell>
                     <TableCell><StatusBadge status={p.overall_status} /></TableCell>
                     <TableCell>{new Date(p.created_at).toLocaleDateString()}</TableCell>
@@ -239,6 +241,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
             </TableBody>
           </Table>
         </Card>
+      </div>
       </div>
     </ProtectedRoute>
   );
