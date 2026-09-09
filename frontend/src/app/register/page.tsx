@@ -109,17 +109,17 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen py-16 flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-100 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-16 flex items-center justify-center bg-gradient-to-b from-white via-emerald-50/30 to-gray-50 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-3xl shadow-2xl border-slate-200/80 rounded-2xl bg-white/95 backdrop-blur-sm p-4 sm:p-6">
         <CardHeader className="text-center space-y-3 pb-6">
-          <div className="mx-auto w-18 h-18 bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl shadow-md flex items-center justify-center ring-4 ring-blue-100 mb-1">
+          <div className="mx-auto w-18 h-18 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl shadow-md flex items-center justify-center ring-4 ring-emerald-100 mb-1">
             <span className="text-white text-2xl font-bold font-serif">भू</span>
           </div>
           <div className="space-y-1">
-            <CardTitle className="text-3xl font-extrabold tracking-tight text-blue-950">
+            <CardTitle className="text-3xl font-extrabold tracking-tight text-gray-900">
               Stakeholder Registration
             </CardTitle>
-            <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
               Bhumi Mitra • National Land Acquisition Platform
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                 </Label>
                 <Input
                   id="name"
-                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Sunil Deshmukh"
@@ -157,7 +157,7 @@ export default function RegisterPage() {
                 <Input
                   id="email"
                   type="email"
-                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@gov.in"
@@ -172,7 +172,7 @@ export default function RegisterPage() {
                 <Input
                   id="password"
                   type="password"
-                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
@@ -186,7 +186,7 @@ export default function RegisterPage() {
                 Stakeholder Role (RBAC Access Level) *
               </Label>
               <Select value={role} onValueChange={(v: UserRole) => setRole(v)}>
-                <SelectTrigger id="role" className="h-auto py-3 px-4 rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700">
+                <SelectTrigger id="role" className="h-auto py-3 px-4 rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
                   <SelectValue placeholder="Select your stakeholder role" />
                 </SelectTrigger>
                 <SelectContent className="max-h-80">
@@ -205,7 +205,7 @@ export default function RegisterPage() {
                 Affiliated Implementing / Requiring Agency (Optional)
               </Label>
               <Select value={agencyId} onValueChange={setAgencyId}>
-                <SelectTrigger id="agency" className="h-12 px-4 rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700">
+                <SelectTrigger id="agency" className="h-12 px-4 rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500">
                   <SelectValue placeholder="Select agency (optional)" />
                 </SelectTrigger>
                 <SelectContent>
@@ -226,7 +226,7 @@ export default function RegisterPage() {
                 </Label>
                 <Input
                   id="state_scope"
-                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
                   value={stateScope}
                   onChange={(e) => setStateScope(e.target.value)}
                   placeholder="e.g. Maharashtra"
@@ -239,7 +239,7 @@ export default function RegisterPage() {
                 </Label>
                 <Input
                   id="district_scope"
-                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-blue-700 focus:ring-blue-700"
+                  className="h-12 px-4 text-base rounded-xl border-slate-300 focus:border-emerald-500 focus:ring-emerald-500"
                   value={districtScope}
                   onChange={(e) => setDistrictScope(e.target.value)}
                   placeholder="e.g. Pune"
@@ -250,14 +250,14 @@ export default function RegisterPage() {
           <CardFooter className="flex flex-col space-y-4 px-4 sm:px-8 pt-4 pb-6">
             <Button
               type="submit"
-              className="w-full h-12 text-base font-semibold bg-blue-900 hover:bg-blue-800 text-white rounded-xl shadow-md transition duration-150"
+              className="w-full h-12 text-base font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition duration-150"
               disabled={loading}
             >
               {loading ? 'Creating Authorized Account...' : 'Complete Stakeholder Registration'}
             </Button>
             <div className="text-center text-sm text-slate-600 pt-1">
               Already have an authorized account?{' '}
-              <Link href="/login" className="text-blue-900 font-bold hover:underline">
+              <Link href="/login" className="text-emerald-700 font-bold hover:underline">
                 Sign in here &rarr;
               </Link>
             </div>
