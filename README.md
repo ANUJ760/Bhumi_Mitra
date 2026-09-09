@@ -1,4 +1,4 @@
-# Bhumi Mitra (भूमि मित्र) — National Land Acquisition Lifecycle Platform
+# Bhumi Mitra (भूमि मित्र) — National Land Acquisition & Management Platform
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026--SIH26016-orange.svg)](https://www.sih.gov.in/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%200.115+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
@@ -7,29 +7,27 @@
 [![MapLibre GL](https://img.shields.io/badge/GIS-MapLibre%20GL%20JS-blue.svg?logo=maplibre)](https://maplibre.org)
 [![MinIO](https://img.shields.io/badge/Object%20Storage-MinIO%20S3-C72C48.svg?logo=minio)](https://min.io)
 
-**Bhumi Mitra** is a national-scale digital platform for end-to-end orchestration, GIS visualization, and role-based tracking of India's infrastructure land acquisition lifecycle (Highways, Railways, Irrigation, Industrial Corridors, Renewable Energy, and Urban Infrastructure).
+**Bhumi Mitra** is a national-scale digital platform for end-to-end orchestration, GIS visualization, and role-based tracking of India's infrastructure land acquisition lifecycle — Highways, Railways, Irrigation, Industrial Corridors, Renewable Energy, and Urban Infrastructure.
 
-Designed for **Smart India Hackathon (SIH26016)**, coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
+Designed for **Smart India Hackathon 2026 (SIH26016)** — coordinating Central Ministries, State Governments, District Administrations, and Project Implementing Agencies.
 
 ---
 
-## 📸 Platform Demo & Screenshots
+## 📸 Platform Screenshots
 
-| **1. Executive Dashboard & Acquisition Analytics** | **2. Infrastructure Projects Tracker** |
+| **1. Executive Dashboard & Analytics** | **2. Infrastructure Projects Tracker** |
 | :---: | :---: |
-| ![Executive Dashboard](screenshots/Screenshot_20260829_155521.png) | ![Projects Tracker](screenshots/Screenshot_20260829_155552.png) |
-| *Role-scoped real-time KPI overview & recent project portfolio* | *Project proposals, sanction status, state/district allocation & budget* |
+| ![Dashboard](screenshots/Screenshot_20260829_155521.png) | ![Projects](screenshots/Screenshot_20260829_155552.png) |
+| *Role-scoped real-time KPI overview, status distributions & recent projects* | *Project proposals with search, state/district allocation & budget tracking* |
 
 | **3. Stakeholder & RBAC User Management** | **4. Role-Based Stakeholder Registration** |
 | :---: | :---: |
-| ![User Management](screenshots/Screenshot_20260829_155605.png) | ![Stakeholder Registration](screenshots/Screenshot_20260829_155622.png) |
+| ![User Management](screenshots/Screenshot_20260829_155605.png) | ![Registration](screenshots/Screenshot_20260829_155622.png) |
 | *Administrative control panel for role delegations & jurisdictions* | *Onboarding portal with agency affiliation & district/state scopes* |
 
 ---
 
-## 🏛️ System Architecture & Domain Modules
-
-The platform adopts a **domain-modular architecture** with a strict service-layer abstraction for all business logic:
+## 🏛️ System Architecture
 
 ```
 Bhumi_Mitra/
@@ -44,27 +42,52 @@ Bhumi_Mitra/
 │   │   │   ├── workflow/           # 5-stage acquisition workflow & completion engine
 │   │   │   ├── documents/          # MinIO S3 object storage & evidence attachment
 │   │   │   ├── dashboard/          # Role-scoped summary statistics & audit log
-│   │   │   └── mock_gov_api/       # Mock DILRMP/ULPIN land-record integration
+│   │   │   ├── mock_gov_api/       # Mock DILRMP/ULPIN land-record integration
+│   │   │   └── gov_api_gateway/    # 🔌 Government API Gateway (placeholder for production)
 │   │   └── scripts/
-│   │       └── seed.py             # Idempotent seed for admin & government agencies
-│   └── tests/                      # Pytest suite testing acceptance criteria
+│   │       └── seed.py             # Idempotent seed: admin + government agencies
+│   └── tests/                      # Pytest suite
 ├── frontend/                       # Next.js 14 (App Router) + TypeScript
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── login/              # Secure authentication portal
-│   │   │   ├── dashboard/          # Role-scoped summary cards & recent projects
-│   │   │   ├── projects/           # Project list & proposal creation with GIS drawer
-│   │   │   ├── projects/[id]/      # Project detail, approval action, parcel map
-│   │   │   ├── parcels/[id]/       # Parcel stage table, event forms & evidence docs
-│   │   │   └── admin/users/        # User management & RBAC configuration
-│   │   ├── components/
-│   │   │   ├── map/                # MapLibre GIS viewer (ProjectMap, BoundaryDrawer)
-│   │   │   ├── StageStatusList.tsx # Plain status table isolating workflow stages
-│   │   │   └── StatusBadge.tsx     # Status indicator badges
-│   │   └── lib/                    # API client, Auth context, TypeScript schemas
+│   └── src/
+│       ├── app/
+│       │   ├── login/              # Split-panel authentication portal
+│       │   ├── register/           # Stakeholder registration with RBAC selection
+│       │   ├── dashboard/          # KPI cards, status distributions, recent projects
+│       │   ├── projects/           # Project listing with search & proposal creation
+│       │   ├── projects/[id]/      # Project detail, approval actions, parcel map
+│       │   ├── parcels/[id]/       # Parcel stage table, event forms & evidence docs
+│       │   ├── notifications/      # 🔔 Alerts & notifications (placeholder)
+│       │   ├── reports/            # 📊 Reports & analytics (placeholder)
+│       │   └── admin/users/        # User management & RBAC configuration
+│       ├── components/
+│       │   ├── layout/Navbar.tsx   # Responsive navbar with mobile menu
+│       │   ├── map/                # MapLibre GIS viewer (ProjectMap, BoundaryDrawer)
+│       │   ├── StageStatusList.tsx  # Workflow stage status table
+│       │   └── StatusBadge.tsx     # Status indicator badges
+│       └── lib/                    # API client, Auth context, TypeScript schemas
 ├── docker-compose.yml              # Multi-container orchestration
 └── .env.example                    # Environment configuration template
 ```
+
+---
+
+## 🔌 Government API Gateway (Production Integration)
+
+The platform includes a **dedicated Government API Gateway module** (`backend/app/modules/gov_api_gateway/`) designed for seamless integration with government services when API access is granted:
+
+| Integration | Service | Status |
+|---|---|---|
+| **DILRMP** | Digital India Land Records Modernisation Programme | 🟡 Placeholder — using mock data |
+| **Bhu-Naksha** | Cadastral Map Service | 🟡 Placeholder |
+| **ULPIN** | Unique Land Parcel Identification Number validation | 🟡 Placeholder — pattern matching |
+| **NIC Cloud (MeghRaj)** | Government cloud infrastructure | 🟡 Placeholder |
+| **Aadhaar eKYC** | Stakeholder identity verification | 🟡 Placeholder |
+| **PFMS** | Public Financial Management System (compensation tracking) | 🟡 Placeholder |
+| **SMS Gateway** | NIC/CDAC SMS notification service | 🟡 Placeholder |
+| **Email APIs** | NIC email service | 🟡 Placeholder |
+| **DigiLocker** | Document verification & storage | 🟡 Placeholder |
+
+> Each integration follows a consistent pattern: check if enabled → if yes, call real API → if no, return mock/placeholder data with a `_source` flag. Enable by configuring API keys in the `.env` file.
 
 ---
 
@@ -82,7 +105,7 @@ Bhumi_Mitra/
 | **Record Final Possession** | `DISTRICT_AUTHORITY` |
 | **Upload Stage / Parcel Documents** | `DISTRICT_AUTHORITY`, `PROJECT_AGENCY`, `FIELD_OFFICER` |
 | **View Dashboards (State Scoped)** | `STATE_ADMIN` (own state only) |
-| **View Dashboards (District Scoped)**| `DISTRICT_AUTHORITY` (own district only) |
+| **View Dashboards (District Scoped)** | `DISTRICT_AUTHORITY` (own district only) |
 | **View Dashboards (National)** | `CENTRAL_ADMIN`, `AUDITOR` |
 | **Manage Stakeholder Accounts** | `CENTRAL_ADMIN` only |
 | **Read-Only Inspection** | `VIEWER` |
@@ -110,99 +133,219 @@ Otherwise, `overall_status` is `IN_PROGRESS` if any stage has moved past `PENDIN
 
 ---
 
-## 🚀 Quick Start & Local Setup
+## 🚀 Setup & Installation
 
 ### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
-- Node.js 20+ and Python 3.11+ (if running without Docker)
+- [Node.js 20+](https://nodejs.org/) and [Python 3.11+](https://www.python.org/) (if running without Docker)
+- [Git](https://git-scm.com/)
 
 ### Option A: Docker Compose (Recommended)
 
-1. **Configure Environment:**
-   ```bash
-   cp .env.example .env
-   ```
-   *(Update passwords or secrets in `.env` if desired)*
+```bash
+# 1. Clone the repository
+git clone https://github.com/ANUJ760/Bhumi_Mitra.git
+cd Bhumi_Mitra
 
-2. **Start All Services (Database, MinIO, Backend, Frontend):**
-   ```bash
-   docker compose up --build -d
-   ```
+# 2. Configure environment
+cp .env.example .env
+# Edit .env and set your own passwords (or use defaults for local dev)
 
-3. **Run Migrations & Seed Admin User:**
-   ```bash
-   docker compose exec backend alembic upgrade head
-   docker compose exec backend python -m app.scripts.seed
-   ```
-   *(The seed script will output the initial generated admin password)*
+# 3. Start all services
+docker compose up --build -d
 
-4. **Open the Web Application:**
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
-   - MinIO Console: [http://localhost:9001](http://localhost:9001)
+# 4. Run database migrations & seed admin
+docker compose exec backend alembic upgrade head
+docker compose exec backend python -m app.scripts.seed
+```
+
+> ⚠️ **The seed script generates a random admin password** and prints it to the console. Copy it immediately — it will not be shown again.
+
+```
+============================================================
+  ADMIN ACCOUNT CREATED
+  Email:    admin@bhumimitra.gov.in
+  Password: <randomly-generated-password>
+  ⚠️  Save this password — it will not be shown again.
+============================================================
+```
+
+**Access the platform:**
+| Service | URL |
+|---|---|
+| Frontend | [http://localhost:3000](http://localhost:3000) |
+| API Docs (Swagger) | [http://localhost:8000/docs](http://localhost:8000/docs) |
+| MinIO Console | [http://localhost:9001](http://localhost:9001) |
 
 ---
 
 ### Option B: Local Development (Manual)
 
-1. **Start PostGIS and MinIO:**
-   ```bash
-   docker compose up -d postgres minio
-   ```
+```bash
+# 1. Start database & object storage
+docker compose up -d postgres minio
 
-2. **Backend Setup:**
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   alembic upgrade head
-   python -m app.scripts.seed
-   uvicorn app.main:app --reload --port 8000
-   ```
+# 2. Backend setup
+cd backend
+python -m venv .venv
+source .venv/bin/activate     # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+alembic upgrade head
+python -m app.scripts.seed    # ← Save the generated admin password!
+uvicorn app.main:app --reload --port 8000
 
-3. **Frontend Setup:**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000).
+# 3. Frontend setup (new terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🧪 Acceptance Testing Walkthrough
+## 🧪 Testing & Acceptance Walkthrough
 
-Follow this 8-step verification sequence to test the entire acquisition lifecycle:
+Follow this step-by-step verification to test the complete land acquisition lifecycle:
 
-1. **Sign in as Central Admin:**
-   - Navigate to `/login`, enter `admin@bhumimitra.gov.in` and password `Admin@123456`.
-2. **Create Stakeholder Users:**
-   - Go to `/admin/users`, create a `PROJECT_AGENCY` user and a `STATE_ADMIN` user (State: *Maharashtra*).
-3. **Submit Project Proposal:**
-   - Sign in as `PROJECT_AGENCY`, go to `/projects`, click **New Project Proposal**, paste GeoJSON coordinates, and submit.
-4. **Approve Project:**
-   - Sign in as `STATE_ADMIN`, open the proposed project, and click **Approve Proposal**.
-5. **Add Land Parcels:**
-   - Create a `DISTRICT_AUTHORITY` user for Pune district, log in, open the approved project, and click **Add Parcel** (e.g. ULPIN: `ULPIN-MH-PUN-1001`, Area: `2.5` Ha).
-6. **Execute Acquisition Stages in Sequence:**
-   - Open the parcel detail page (`/parcels/[id]`).
-   - Notice DILRMP verification card automatically populates owner and land-use information from mock registry.
-   - Record **Notification** (issue date + gazette document).
-   - Record **Award** (award date, amount, authority + order document).
-   - Record **Compensation** with status `DISBURSED`.
-   - Record **R&R** (0 affected families → auto-resolves to `NOT_APPLICABLE`).
-   - Record **Possession** (possession date + certificate document).
-7. **Verify Completion:**
-   - Confirm parcel status transitions to **`COMPLETED`** (green badge).
-   - Check `/dashboard` to verify updated statistics.
-8. **Verify Out-of-Order Rejection:**
-   - On a new parcel, attempting to record Possession directly will return a `409 Conflict` error.
+### Step 1: Sign in as Central Admin
+- Navigate to `/login`
+- Enter email: `admin@bhumimitra.gov.in`
+- Enter the password generated during seeding
+
+### Step 2: Create Stakeholder Users
+- Go to `/admin/users`, click **Create User**
+- Create a `PROJECT_AGENCY` user (e.g., `agency@pwd.gov.in`)
+- Create a `STATE_ADMIN` user with State Scope: `Maharashtra`
+- Create a `DISTRICT_AUTHORITY` user with State: `Maharashtra`, District: `Pune`
+
+### Step 3: Submit a Project Proposal
+- Sign in as the `PROJECT_AGENCY` user
+- Go to `/projects` → click **New Project Proposal**
+- Fill in: Name, Type (Road), State (Maharashtra), District (Pune), Budget
+- Optionally paste GeoJSON polygon coordinates for the project boundary
+- Click **Submit Proposal**
+
+### Step 4: Approve the Project
+- Sign in as `STATE_ADMIN` (Maharashtra)
+- Open the proposed project from the project list
+- Click **Approve Proposal** (or **Reject** with reason)
+
+### Step 5: Add Land Parcels
+- Sign in as `DISTRICT_AUTHORITY` (Pune)
+- Open the approved project
+- Click **Add Parcel**, enter ULPIN (e.g., `ULPIN-MH-PUN-1001`) and area (2.5 Ha)
+- Optionally provide GeoJSON geometry for spatial visualization
+
+### Step 6: Execute Acquisition Stages (in strict order)
+Open the parcel detail page (`/parcels/[id]`):
+
+| # | Stage | Required Data |
+|---|---|---|
+| 1 | **Notification** | Issue date + gazette document upload |
+| 2 | **Award** | Award date, amount, authority + order document |
+| 3 | **Compensation** | Assessed amount, set payment status to `DISBURSED` |
+| 4 | **R&R** | Affected families count (0 → auto-resolves to `NOT_APPLICABLE`) |
+| 5 | **Possession** | Possession date + certificate document upload |
+
+### Step 7: Verify Completion
+- ✅ Parcel status transitions to **COMPLETED** (green badge)
+- ✅ Dashboard KPIs reflect updated statistics
+- ✅ Project map shows parcel in green
+
+### Step 8: Verify Enforcement Rules
+- On a new parcel, attempting to record **Possession** before **Notification** returns `409 Conflict`
+- Duplicate ULPIN registration returns `409 Conflict`
+- Rejected projects block all stage updates
+
+---
+
+## 🗺️ GIS Features
+
+- **Interactive Maps:** MapLibre GL JS with CARTO basemaps
+- **Project Boundaries:** GeoJSON Polygon visualization with fill/outline layers
+- **Parcel Markers:** Color-coded by acquisition status (Pending/In Progress/Completed)
+- **Click Interactions:** Click parcels on map to navigate to detail page
+- **Boundary Drawing:** GeoJSON input with live map preview for project/parcel creation
+- **PostGIS Support:** PostgreSQL Geometry columns for production spatial queries
+
+---
+
+## 📊 Dashboard & Analytics
+
+- **KPI Cards:** Total Projects, Total Parcels, Completed Parcels, Pending Actions
+- **Status Distribution:** Visual progress bars for project and parcel statuses
+- **Role-Scoped Views:** Each role sees only their jurisdiction's data
+- **Recent Activity:** Latest projects with quick navigation
+- **Alerts Placeholder:** Automated notification framework (pending SMS/Email integration)
+
+---
+
+## 📋 Placeholder Features (Pending Integration)
+
+The following features have UI placeholders and backend stubs ready for production integration:
+
+| Feature | Status | What's Ready |
+|---|---|---|
+| SMS Notifications | 🔌 Placeholder | Backend service + UI page + config |
+| Email Alerts | 🔌 Placeholder | Backend service + UI page + config |
+| Push Notifications | 🔌 Placeholder | UI placeholder |
+| DILRMP Land Records | 🔌 Placeholder | Mock data + Gateway service + API endpoint |
+| Bhu-Naksha Cadastral Maps | 🔌 Placeholder | Gateway service + API endpoint |
+| ULPIN Validation | 🔌 Placeholder | Pattern matching + Gateway service |
+| Aadhaar eKYC | 🔌 Placeholder | Gateway service stub |
+| PFMS Payment Tracking | 🔌 Placeholder | Gateway service + API endpoint |
+| Advanced Reports (PDF/Excel) | 🔌 Placeholder | UI page + report type cards |
+| Predictive Analytics | 🔌 Placeholder | Config feature flag |
+| Document AI | 🔌 Placeholder | Config feature flag |
+| Blockchain Audit | 🔌 Placeholder | Config feature flag |
+| Multilingual Support | 🔌 Planned | Architecture supports i18n |
+
+---
+
+## 🔐 Security
+
+- **JWT Authentication** with configurable expiry
+- **bcrypt Password Hashing** (72-byte truncation for safety)
+- **Role-Based Access Control** enforced at both API and UI level
+- **CORS Configuration** with strict origin allowlisting
+- **Random Password Generation** for admin seeding (no hardcoded defaults)
+- **Audit Trail** for all stage transitions and entity modifications
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
+|---|---|
+| **Backend** | FastAPI (Python 3.11+), SQLAlchemy 2.0, Pydantic v2 |
+| **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS, shadcn/ui |
+| **Database** | PostgreSQL 15 + PostGIS 3.4 (SQLite for dev) |
+| **GIS** | MapLibre GL JS, GeoJSON, PostGIS Geometry |
+| **Object Storage** | MinIO S3-compatible |
+| **Auth** | JWT (python-jose), bcrypt |
+| **Containerization** | Docker, Docker Compose |
+| **APIs** | RESTful (OpenAPI/Swagger auto-documented) |
 
 ---
 
 ## 📜 Problem Statement Compliance
 
 - **Smart India Hackathon PS ID:** `SIH26016`
-- **Scope Contract:** Clean architecture with extension feature flags in `core/config.py`.
+- **Theme:** AI, GIS & Data Analytics for Public Administration and Infrastructure Management
+- **Organization:** Department of Land Resources, Ministry of Rural Development
+
+### Key Requirements Addressed:
+- ✅ End-to-end digital workflow for land acquisition
+- ✅ Online submission, verification, approval, and tracking
+- ✅ GIS-enabled geo-tagging and spatial visualization
+- ✅ Interactive national dashboard with KPIs
+- ✅ API-based integration placeholders (DILRMP, ULPIN, Bhu-Naksha)
+- ✅ Mobile-responsive interface
+- ✅ Secure document repository
+- ✅ Role-based access control
+- ✅ Customizable reports (placeholder)
+- ✅ Scalable architecture for nationwide deployment
 
 ---
 
