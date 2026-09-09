@@ -17,13 +17,18 @@ Designed for **Smart India Hackathon 2026 (SIH26016)** — coordinating Central 
 
 | **1. Executive Dashboard & Analytics** | **2. Infrastructure Projects Tracker** |
 | :---: | :---: |
-| ![Dashboard](screenshots/Screenshot_20260829_155521.png) | ![Projects](screenshots/Screenshot_20260829_155552.png) |
+| ![Dashboard](screenshots/Screenshot_20260909_153639.png) | ![Projects](screenshots/projects_tracker.png) |
 | *Role-scoped real-time KPI overview, status distributions & recent projects* | *Project proposals with search, state/district allocation & budget tracking* |
 
 | **3. Stakeholder & RBAC User Management** | **4. Role-Based Stakeholder Registration** |
 | :---: | :---: |
-| ![User Management](screenshots/Screenshot_20260829_155605.png) | ![Registration](screenshots/Screenshot_20260829_155622.png) |
+| ![User Management](screenshots/user_management.png) | ![Registration](screenshots/Screenshot_20260909_155233.png) |
 | *Administrative control panel for role delegations & jurisdictions* | *Onboarding portal with agency affiliation & district/state scopes* |
+
+| **5. Reports & Analytics (MIS)** | **6. Notifications & Alerts Gateway** |
+| :---: | :---: |
+| ![Reports](screenshots/Screenshot_20260909_152714.png) | ![Notifications](screenshots/Screenshot_20260909_153654.png) |
+| *MIS reports, compensation analytics, and decision-support exports* | *Multi-channel notification framework (SMS, Email, Push Alerts)* |
 
 ---
 
